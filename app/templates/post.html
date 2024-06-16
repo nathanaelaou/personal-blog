@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="post-title text-center">
+    {{ post.title }}
+</div>
+<div class="post-date text-center">
+    {{ post.date }}
+</div>
+<div class = 'post-content'>
+    {{ post.content_html | safe }}
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Delete Post{% endblock %}
+
+{% block content %}
+<div class="row row-cols-1 row-cols-md-3 mt-5">
+    {% for post in posts %}
+    <div class="col-md-3 mb-5 custom-column d-flex flex-column align-items-center">
+        {% if post.image_file %}
+            <div class="delete-post-img-wrapper">
+                <img src="{{ url_for('static', filename='images/' ~ post.image_file) }}" class="delete-post-img" alt="{{ post.title }}">
+            </div>
+        {% else %}
+            <p>No image available</p>
+        {% endif %}
+        <h3 class="text-center">{{ post.title }}</h3>
+
+        <form id="deleteForm{{ post.id }}" method="post" action="{{ url_for('views.handle_delete_post', post_id=post.id) }}">
+            <!-- Delete button with onclick event -->
+            <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ post.id }}')">Delete</button>
+        </form>
+
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+// JavaScript function to display confirmation dialog
+function confirmDelete(postId) {
+    if (confirm("Are you sure you want to delete this post?")) {
+        document.getElementById('deleteForm' + postId).submit(); // Submit the form
+    }
+}
+</script>
+
+{% endblock %}

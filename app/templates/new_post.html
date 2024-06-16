@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}New Post{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">Create a New Post</h1>
+    <form method="POST" action="{{ url_for('views.new_post') }}" enctype="multipart/form-data" nonvalidate>
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.title.label(class="form-label") }}
+            {{ form.title(class="form-control", required=True) }}
+        </div>
+        <div class="form-group">
+            {{ form.date.label(class="form-label") }}
+            {{ form.date(class="form-control", required=True) }}
+        </div>
+        <div class="form-group">
+            {{ form.content.label(class="form-label") }}
+            {{ form.content(class="form-control", id='content', required=False) }}
+        </div>
+        <div class="form-group">
+            {{ form.image_file.label(class="form-label") }}
+            {{ form.image_file(class="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</div>
+<script src="https://cdn.tiny.cloud/1/j97a1p3p7gcu7mjadbxub8ftzdqa2ob8sv0axfhpwc90xvq8/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        tinymce.init({
+            selector: '#content',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            automatic_uploads: true,
+            images_upload_url: '/upload_image',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+
+            images_upload_handler: function (blobInfo, progress) {
+                return new Promise(function (resolve, reject) {
+                    var xhr, formData;
+                    xhr = new XMLHttpRequest();
+                    xhr.withCredentials = false;
+                    xhr.open('POST', '/upload_image');
+
+                    // Track upload progress
+                    xhr.upload.onprogress = function(e) {
+                        if (e.lengthComputable) {
+                            var percentComplete = (e.loaded / e.total) * 100;
+                            progress(percentComplete);
+                        }
+                    };
+
+                    xhr.onload = function() {
+                        if (xhr.status === 201) {
+                            var json = JSON.parse(xhr.responseText);
+                            if (json && typeof json.location === 'string') {
+                                resolve(json.location); // Resolve with the image URL
+                            } else {
+                                reject('Invalid JSON: ' + xhr.responseText); // Reject with an error message
+                            }
+                        } else {
+                            reject('HTTP Error: ' + xhr.status); // Reject with an HTTP error
+                        }
+                    };
+
+                    xhr.onerror = function() {
+                        reject('Network Error'); // Reject with a network error
+                    };
+
+                    formData = new FormData();
+                    formData.append('image', blobInfo.blob(), blobInfo.filename());
+                    xhr.send(formData);
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

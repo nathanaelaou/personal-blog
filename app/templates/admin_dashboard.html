@@ -1,0 +1,32 @@
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+</head>
+<body class="dashboard-bg">
+    <div class="dashboard text-center">
+        <div class="dashboard-container">
+            <a href="{{ url_for('views.new_post') }}">Create New Post</a>
+        </div>
+        <div class="dashboard-container">
+            <a href="{{ url_for('views.delete_post') }}">Delete a Post</a>
+        </div>
+        <div class="dashboard-container">
+            <a href="{{ url_for('views.logout') }}">Back</a>
+        </div>
+    </div>
+</body>
+</html>
+

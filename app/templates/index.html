@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1 class="my-4 text-center custom-heading">Nathanael's Blog</h1>
+<div class="row row-cols-1 row-cols-md-3">
+    {% for post in posts %}
+    <div class="col-md-4 mb-5 custom-column">
+        <div class="card custom-card">
+            <a href="{{ url_for('views.post', post_id=post.id) }}">
+                <div class="custom-card-img-wrapper">
+                    <img src="{{ url_for('static', filename='images/' ~ post.image_file) }}" class="card-img-top custom-card-img" alt="{{ post.title }}">
+                </div>
+                <div class="card-body">
+                    <h3 class="card-date">{{ post.date }}</h3>
+                    <h2 class="card-title">{{ post.title }}</h2>
+                </div>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

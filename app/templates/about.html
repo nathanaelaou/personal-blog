@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row about-row">
+    <div class="col-md-6 d-flex align-items-center justify-content-center">
+        <div class="about-img-wrapper">
+            <img src="{{ url_for('static', filename='images/aboutme.png') }}" class="img-fluid about-img" alt="About Image">
+        </div>
+    </div>
+    <div class="col-md-6 d-flex align-items-center">
+        <div>
+            <div class="post-title text-center">hi i'm nathanael</div>
+
+            <p>i code. i erode. i explode.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

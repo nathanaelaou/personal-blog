@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            crossorigin="anonymous"
+        />
+
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
+
+
+        <title>{% block title %}My Website{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg custom-navbar">
+            <div class="col-1 text-left">
+                <a class="navbar-blog" href="{{ url_for('views.home') }}">Blog</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('views.home') }}"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-muted" href="{{ url_for('views.about') }}">About Me</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <div class="content-wrapper">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            <div class="custom-container">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3 text-left">
+                            <span class="text-muted">&copy; 2024 Nathanael Aou</span>
+                        </div>
+                        <div class="col-lg-9 text-right">
+                            <a class="nav-link text-muted" href="{{ url_for('views.admin_login') }}">Admin Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        
+
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poTq6e1p6K7V3y0IYd6MOeI6YAm0E3gkMc1Rg8A2BjpZbPBHEG7" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq1F8+0xIepnQns5JzUop43eUAAopF7b2Q6JxawIj9sfsPb9C2" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-0Fzq6t7MxWqQ2ULSogT6IsF0u7bB+F0Qpqt1F3Spx8nxFJwwc5q1p7XDzjP/Cf1N" crossorigin="anonymous"></script>
+    </body>
+</html>
