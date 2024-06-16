@@ -1,0 +1,18 @@
+# Python virtual environment
+venv/
+
+# Database files
+instance/site.db
+
+# IDE and editor files
+.vscode/
+*.idea/
+
+# Compiled Python files
+*.pyc
+
+# Log files
+*.log
+
+# Configuration files
+config.py
